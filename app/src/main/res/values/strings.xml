@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Todos</string>
+    <string name="done">Done</string>
+    <string name="pending">Pending</string>
+</resources>
