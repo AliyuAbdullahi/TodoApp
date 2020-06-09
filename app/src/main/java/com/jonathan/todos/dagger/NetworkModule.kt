@@ -30,6 +30,20 @@ class NetworkModule {
 
 
 /**
+ *         ######  Dependency Graph   ########
+ *                   MainActivity
+ *                       |
+ *                 TodoService
+ *                      |
+ *                  retrofit
+ *                     |
+ *            okHttpClient, GsonConverter, RxJava3CallAdpterFactory
+ *                 |
+ *            httpLogggingInterceptor
+ */
+
+
+/**
  * Retrofit
  *    HttpLoggingInterceptor
  *    HttpClient

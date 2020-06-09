@@ -7,34 +7,48 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jonathan.todos.App
 import com.jonathan.todos.R
 import com.jonathan.todos.domain.models.Todo
+import com.jonathan.todos.domain.models.TodoResponse
 import com.jonathan.todos.domain.services.TodoService
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var todoService: TodoService
+    lateinit var todoInteractor: TodoInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App.component.inject(this)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onResume() {
+        super.onResume()
         displayItemsOnList()
     }
 
+    private fun showErrorMessage(error: Throwable) {
+        Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading() {
+        Toast.makeText(this, "Loading....", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun hideLoading() {
+        //hide whatever we are using to show loading
+    }
+
     private fun displayItemsOnList() {
-        todoService.getTodos().subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                {
-                    displayList(it)
-                },
-                {
-                    Toast.makeText(this, "Error: $it", Toast.LENGTH_SHORT).show()
-                }
-            )
+        todoInteractor.todoObservable.subscribe { todoResponse ->
+            when (todoResponse) {
+                is TodoResponse.Success -> displayList(todoResponse.data as List<Todo>)
+                is TodoResponse.Pending -> showLoading()
+                is TodoResponse.Error -> showErrorMessage(todoResponse.error)
+            }
+        }
     }
 
     private fun displayList(list: List<Todo>) {
