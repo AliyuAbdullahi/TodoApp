@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 class TodoInteractor @Inject constructor(private val todoService: TodoService) {
@@ -25,16 +26,19 @@ class TodoInteractor @Inject constructor(private val todoService: TodoService) {
                     todoSubject.onComplete()
                 },
                 {
-                    todoSubject.onNext(TodoResponse.Error(it))
                     todoSubject.onComplete()
+                    todoSubject.onError(it)
                 }
             )
     }
+
+    fun test() = "message"
 }
 
 
 /**
  * Publish Subject => Launch and forget
- * Relay Subject
- * Behavioral Subject
+ * Replay Subject
+ * Behavior Subject
+ * Async Subject
  */

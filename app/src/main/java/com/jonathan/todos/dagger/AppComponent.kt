@@ -6,7 +6,6 @@ import dagger.Component
 @Component(modules = [TodoServiceModule::class])
 interface AppComponent {
     fun inject(mainActivity: MainActivity)
-
     @Component.Builder
     interface Builder {
 

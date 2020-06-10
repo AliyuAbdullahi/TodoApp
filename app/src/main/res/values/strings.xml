@@ -2,4 +2,5 @@
     <string name="app_name">Todos</string>
     <string name="done">Done</string>
     <string name="pending">Pending</string>
+    <string name="empty_todo_state">There are no todo Items on list</string>
 </resources>
