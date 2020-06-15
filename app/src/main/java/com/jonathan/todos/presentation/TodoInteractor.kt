@@ -26,13 +26,11 @@ class TodoInteractor @Inject constructor(private val todoService: TodoService) {
                     todoSubject.onComplete()
                 },
                 {
-                    todoSubject.onComplete()
                     todoSubject.onError(it)
                 }
             )
     }
 
-    fun test() = "message"
 }
 
 
